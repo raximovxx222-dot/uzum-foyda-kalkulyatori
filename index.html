@@ -79,10 +79,12 @@ function calc(){
  const commission=price*rate, total=cost+commission+logistics+packaging+ads;
  const profit=price-total, margin=price>0?profit/price*100:0;
  const fixed=cost+logistics+packaging+ads;
- // Tarif stavkasi narx chegaralarida o‘zgaradi, shu sabab zararsizlik narxini bosqichma-bosqich qidiramiz.
+ // Zararsizlik narxi uchun har bir tarif stavkasidagi yechimni tekshiramiz.
  let breakEven=null;
- for(let p=0;p<=100000000;p+=100){
-   if(p-(fixed+p*commissionRateFor(p,category))>=0){breakEven=p;break;}
+ const rates=category==='appliance'?[0.08]:[0.40,0.35,0.32,0.30,0.25,0.21,0.18,0.15,0.10,0.08,0.06,0.05];
+ for(const candidateRate of rates){
+   const candidate=Math.ceil(fixed/(1-candidateRate));
+   if(commissionRateFor(candidate,category)===candidateRate){breakEven=candidate;break;}
  }
  el('displayPrice').textContent=money(price);
  el('profit').textContent=money(profit);
