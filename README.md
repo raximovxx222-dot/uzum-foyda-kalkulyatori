@@ -1,1 +1,1 @@
-# uzum-foyda-kalkulyatori-Nusxalash
+# uzum-foyda-kalkulyatori
