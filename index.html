@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Marketplace sotuvchilari uchun tovar tannarxi, komissiya va boshqa xarajatlar asosida sotuv narxi hamda taxminiy foydani hisoblovchi mustaqil kalkulyator.">
+<title>Foyda Lab — Tovar foydasi kalkulyatori</title>
+<style>
+:root{color-scheme:light;--navy:#10233f;--navy2:#1b3c5b;--teal:#0d9488;--lime:#c4f269;--ink:#17283f;--muted:#65758b;--line:#dfe7ef;--bg:#f3f7fb;--white:#fff;--red:#b42318;--green:#087f5b;--shadow:0 14px 38px rgba(15,35,63,.08}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5}
+header{color:#fff;padding:28px 20px 36px;background:radial-gradient(circle at 90% 0%,#28617a 0,transparent 32%),linear-gradient(120deg,var(--navy),#173755)}
+.wrap{max-width:1080px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:30px}.brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:850;letter-spacing:.4px}.logo{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:var(--lime);color:var(--navy);font-size:24px}.badge{border:1px solid #49647e;border-radius:999px;padding:6px 11px;color:#dce8f6;font-size:12px}.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.1;letter-spacing:-1.1px;max-width:720px;margin:0 0 13px}.hero h1 span{color:var(--lime)}.hero p{max-width:700px;color:#d0ddec;margin:0;font-size:15px}
+main{padding:27px 20px 40px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.panelhead{padding:20px 22px 15px;border-bottom:1px solid var(--line)}h2{margin:0;font-size:18px;letter-spacing:-.2px}.sub{margin:5px 0 0;color:var(--muted);font-size:13px}.fields{padding:20px 22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#3b4b61}.inputwrap{position:relative}.inputwrap input{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px 52px 12px 11px;background:#fff;font:inherit;font-size:14px;color:var(--ink);outline:none}.inputwrap input:focus{border-color:var(--teal);box-shadow:0 0 0 3px #0d94881a}.unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);pointer-events:none}.hint{font-size:11px;color:#8491a3;margin-top:-2px}.results{padding:21px}.feature{border-radius:15px;padding:21px;background:linear-gradient(130deg,var(--navy),var(--navy2));color:#fff}.caption{font-size:12px;color:#cddaea;font-weight:650}.price{font-size:clamp(28px,4vw,38px);font-weight:850;letter-spacing:-1px;margin:5px 0;overflow-wrap:anywhere}.note{font-size:12px;color:#cfdaea}.minline{display:flex;justify-content:space-between;gap:12px;margin-top:17px;padding-top:14px;border-top:1px solid #45617c;font-size:12px}.minline strong{color:var(--lime)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.stat{border:1px solid var(--line);border-radius:12px;padding:14px}.stat span{display:block;font-size:11px;color:var(--muted);margin-bottom:5px}.stat strong{font-size:18px;overflow-wrap:anywhere}.stat small{display:block;font-size:11px;color:var(--muted);margin-top:4px}.positive{color:var(--green)}.negative{color:var(--red)}.breakdown{margin-top:19px}.breakdown h3{font-size:14px;margin:0 0 7px}.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1f6;padding:8px 0;font-size:12px}.line span{color:#5b6b80}.line strong{text-align:right}.line:last-child{border-bottom:0;font-weight:800}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}.btn{border:0;border-radius:10px;padding:11px 13px;font-size:12px;font-weight:800;cursor:pointer}.primary{background:var(--teal);color:white}.secondary{background:#edf3f8;color:var(--navy)}.btn:hover{filter:brightness(.96)}.warning{font-size:11px;color:#617187;background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-top:15px}.alert{display:none;background:#fff1f2;color:#9f1239;border:1px solid #fecdd3;border-radius:10px;padding:10px 12px;margin:0 22px 18px;font-size:12px}.footer{padding:0 20px 22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#77869a;font-size:11px}.footer strong{color:#50647d}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column;margin-bottom:23px}header{padding:24px 17px 29px}main{padding:17px 12px 30px}.panelhead{padding:18px}.fields{padding:17px}.results{padding:15px}}
+@media(max-width:430px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:16px}}
+@media print{body{background:white}header{padding:16px;background:var(--navy)!important;print-color-adjust:exact}.top .badge,.actions{display:none}main{padding:12px}.layout{grid-template-columns:1fr 1fr}.panel{box-shadow:none;break-inside:avoid}.footer{padding-bottom:0}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><div class="brand"><div class="logo">✓</div><span>FOYDA LAB</span></div><div class="badge">Mustaqil demo kalkulyator</div></div>
+  <div class="hero"><h1>Tovar narxini hisoblang. <span>Foydani oldindan biling.</span></h1><p>Tannarx, marketplace komissiyasi va boshqa xarajatlarni kiriting — maqsadli foydangizga mos sotuv narxini hisoblang.</p></div>
+</div></header>
+<main class="wrap"><div class="layout">
+<section class="panel" aria-labelledby="costTitle"><div class="panelhead"><h2 id="costTitle">1. Tovar va xarajatlar</h2><p class="sub">Maydonlarni amaldagi tariflaringizga moslab kiriting.</p></div>
+<div class="fields">
+<div class="field"><label for="cost">Tovar tannarxi</label><div class="inputwrap"><input id="cost" type="number" min="0" step="100" value="65000"><span class="unit">so‘m</span></div></div>
+<div class="field"><label for="profit">Maqsadli sof foyda</label><div class="inputwrap"><input id="profit" type="number" min="0" step="100" value="25000"><span class="unit">so‘m</span></div></div>
+<div class="field"><label for="commission">Marketplace komissiyasi</label><div class="inputwrap"><input id="commission" type="number" min="0" max="99.9" step="0.1" value="15"><span class="unit">%</span></div><div class="hint">Joriy tarifga qarab o‘zgartiring.</div></div>
+<div class="field"><label for="adsPct">Boshqa foizli xarajatlar</label><div class="inputwrap"><input id="adsPct" type="number" min="0" max="99.9" step="0.1" value="0"><span class="unit">%</span></div></div>
+<div class="field"><label for="logistics">Logistika / yetkazish</label><div class="inputwrap"><input id="logistics" type="number" min="0" step="100" value="5000"><span class="unit">so‘m</span></div></div>
+<div class="field"><label for="packaging">Qadoqlash</label><div class="inputwrap"><input id="packaging" type="number" min="0" step="100" value="1500"><span class="unit">so‘m</span></div></div>
+<div class="field"><label for="adsFixed">Reklama xarajati (har dona)</label><div class="inputwrap"><input id="adsFixed" type="number" min="0" step="100" value="2000"><span class="unit">so‘m</span></div></div>
+<div class="field"><label for="other">Boshqa xarajatlar</label><div class="inputwrap"><input id="other" type="number" min="0" step="100" value="0"><span class="unit">so‘m</span></div></div>
+<div class="field full"><label for="actual">Tekshirish uchun sotuv narxi (ixtiyoriy)</label><div class="inputwrap"><input id="actual" type="number" min="0" step="100" placeholder="Masalan, 120000"><span class="unit">so‘m</span></div><div class="hint">Narx kiritilsa, shu narx bo‘yicha taxminiy foyda ham hisoblanadi.</div></div>
+</div><div id="error" class="alert" role="alert"></div></section>
+<section class="panel" aria-labelledby="resultTitle"><div class="panelhead"><h2 id="resultTitle">2. Hisob-kitob natijasi</h2><p class="sub">Natijalar kiritilgan qiymatlar asosida avtomatik yangilanadi.</p></div>
+<div class="results"><div class="feature"><div class="caption">Maqsadli foyda uchun tavsiya etilgan narx</div><div class="price" id="recommended" aria-live="polite">—</div><div class="note">Yaqin yuqori 1 000 so‘mga yaxlitlangan</div><div class="minline"><span>Hisoblangan minimal narx</span><strong id="minimum">—</strong></div></div>
+<div class="stats"><div class="stat"><span>Tavsiya narxidagi taxminiy sof foyda</span><strong class="positive" id="netProfit">—</strong><small id="profitMargin">Sof marja: —</small></div><div class="stat"><span>Komissiya va foizli xarajatlar</span><strong id="commissionSum">—</strong><small>Hisoblangan jami summa</small></div></div>
+<div class="breakdown"><h3>Tavsiya narxi bo‘yicha xarajatlar</h3><div class="line"><span>Tovar tannarxi</span><strong id="bCost">—</strong></div><div class="line"><span>Komissiya va foizli xarajatlar</span><strong id="bCommission">—</strong></div><div class="line"><span>Logistika va qadoqlash</span><strong id="bDelivery">—</strong></div><div class="line"><span>Reklama va boshqa xarajatlar</span><strong id="bOther">—</strong></div><div class="line"><span>Jami xarajat</span><strong id="bTotal">—</strong></div></div>
+<div class="stats" id="actualBox" style="display:none"><div class="stat"><span>Kiritilgan narxdagi sof foyda</span><strong id="actualProfit">—</strong><small id="actualMargin">Sof marja: —</small></div><div class="stat"><span>Minimal narxga farq</span><strong id="priceGap">—</strong><small>Kiritilgan narx va minimal narx farqi</small></div></div>
+<div class="actions"><button class="btn primary" id="copyBtn" type="button">Natijani nusxalash</button><button class="btn secondary" id="printBtn" type="button">Hisobotni chop etish</button><button class="btn secondary" id="resetBtn" type="button">Boshlang‘ich qiymatlar</button></div>
+<div class="warning">Eslatma: bu mustaqil hisob-kitob vositasi, Uzum Market bilan rasmiy integratsiyasi yo‘q. Komissiya, logistika, qaytarish va boshqa tariflar farq qilishi mumkin; ularni o‘zingiz kiriting. Natijalar taxminiy bo‘lib, soliqlar va boshqa majburiy to‘lovlar avtomatik hisoblanmaydi.</div>
+</div></section></div></main>
+<div class="footer wrap"><span><strong>FOYDA LAB</strong> · Mustaqil demo versiya</span><span>Oflayn ishlaydi · Ma’lumotlar brauzerda qoladi</span></div>
+<script>
+(()=>{'use strict';
+const ids=['cost','profit','commission','adsPct','logistics','packaging','adsFixed','other','actual'];
+const $=id=>document.getElementById(id);
+const money=v=>new Intl.NumberFormat('uz-UZ',{maximumFractionDigits:0}).format(Math.round(v))+' so‘m';
+const num=id=>{const v=Number($(id).value);return Number.isFinite(v)?v:0};
+const safe=v=>Math.max(0,v);
+let report='';
+function calculate(){
+const cost=safe(num('cost')),target=safe(num('profit')),commission=safe(num('commission')),adsPct=safe(num('adsPct'));
+const logistics=safe(num('logistics')),packaging=safe(num('packaging')),adsFixed=safe(num('adsFixed')),other=safe(num('other')),error=$('error');
+if(commission>=100||adsPct>=100||commission+adsPct>=100){error.style.display='block';error.textContent='Komissiya va foizli xarajatlar jami 100% dan kam bo‘lishi kerak.';['recommended','minimum','netProfit','commissionSum','bCost','bCommission','bDelivery','bOther','bTotal'].forEach(id=>$(id).textContent='—');report='';return}
+error.style.display='none';
+const fixed=cost+logistics+packaging+adsFixed+other,denom=1-(commission+adsPct)/100;
+const minimum=(fixed+target)/denom,recommended=Math.ceil(minimum/1000)*1000;
+const comm=recommended*commission/100,ads=recommended*adsPct/100,total=fixed+comm+ads,net=recommended-total,margin=recommended?net/recommended*100:0;
+$('recommended').textContent=money(recommended);$('minimum').textContent=money(minimum);$('netProfit').textContent=money(net);$('netProfit').className=net>=0?'positive':'negative';$('profitMargin').textContent='Sof marja: '+margin.toLocaleString('uz-UZ',{maximumFractionDigits:1})+'%';$('commissionSum').textContent=money(comm+ads);$('bCost').textContent=money(cost);$('bCommission').textContent=money(comm+ads);$('bDelivery').textContent=money(logistics+packaging);$('bOther').textContent=money(adsFixed+other);$('bTotal').textContent=money(total);
+const actual=safe(num('actual'));
+if(actual>0){const actualTotal=fixed+actual*(commission+adsPct)/100,actualNet=actual-actualTotal,gap=actual-minimum;$('actualBox').style.display='grid';$('actualProfit').textContent=money(actualNet);$('actualProfit').className=actualNet>=0?'positive':'negative';$('actualMargin').textContent='Sof marja: '+(actualNet/actual*100).toLocaleString('uz-UZ',{maximumFractionDigits:1})+'%';$('priceGap').textContent=(gap>=0?'+':'−')+money(Math.abs(gap));$('priceGap').className=gap>=0?'positive':'negative'}else $('actualBox').style.display='none';
+report='FOYDA LAB — HISOB-KITOB HISOBOTI\nTavsiya etilgan narx: '+money(recommended)+'\nHisoblangan minimal narx: '+money(minimum)+'\nTaxminiy sof foyda: '+money(net)+'\nSof marja: '+margin.toLocaleString('uz-UZ',{maximumFractionDigits:1})+'%\nTannarx: '+money(cost)+'\nKomissiya va foizli xarajatlar: '+money(comm+ads)+'\nLogistika va qadoqlash: '+money(logistics+packaging)+'\nReklama va boshqa xarajatlar: '+money(adsFixed+other)+'\nJami xarajat: '+money(total)+'\n\nNatijalar taxminiy; joriy tariflar va soliqlarni alohida tekshiring.';
+}
+ids.forEach(id=>$(id).addEventListener('input',calculate));
+$('copyBtn').addEventListener('click',async()=>{if(!report)return;try{await navigator.clipboard.writeText(report);$('copyBtn').textContent='Nusxalandi ✓';setTimeout(()=>$('copyBtn').textContent='Natijani nusxalash',1500)}catch(e){window.prompt('Hisobotni nusxalang:',report)}});
+$('printBtn').addEventListener('click',()=>window.print());
+$('resetBtn').addEventListener('click',()=>{const defaults={cost:65000,profit:25000,commission:15,adsPct:0,logistics:5000,packaging:1500,adsFixed:2000,other:0,actual:''};Object.entries(defaults).forEach(([id,val])=>$(id).value=val);calculate()});
+calculate();
+})();
+</script></body></html>
