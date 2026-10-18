@@ -23,18 +23,19 @@ main{padding:27px 0 40px}.grid{display:grid;grid-template-columns:minmax(0,1.05f
 <section class="panel"><div class="panelhead"><h2>1. Mahsulot va xarajatlar</h2><p class="sub">Mahsulotingizga qarab tannarx, qadoqlash va reklama xarajatlarini o‘zgartiring.</p></div><div class="body">
 <div class="fields">
 <div class="field"><label for="costPrice">Tovar tannarxi (so‘m)</label><input id="costPrice" type="number" min="0" step="100" value="65000" inputmode="numeric"></div>
-<div class="field"><label for="commissionRate">Uzum komissiyasi (%)</label><input id="commissionRate" type="number" min="0" max="99.99" step="0.5" value="15" inputmode="decimal"><div class="hint">Sotuv narxidan foiz hisobida</div></div>
+<div class="field"><label for="commissionCategory">Mahsulot toifasi</label><select id="commissionCategory"><option value="standard">Oddiy tovar kategoriyalari</option><option value="appliance">Yirik maishiy texnika</option></select><div class="hint">Rasmda berilgan tarif jadvali asosida</div></div>
+<div class="field"><label for="commissionRate">Uzum komissiyasi (%)</label><input id="commissionRate" type="number" value="40" readonly><div class="hint">Sotuv narxi va tanlangan toifaga qarab avtomatik</div></div>
 <div class="field"><label for="logistics">Logistika (so‘m)</label><input id="logistics" type="number" value="5000" readonly><div class="hint">O‘zgarmas qiymat</div></div>
 <div class="field"><label for="packaging">Qadoqlash (so‘m)</label><input id="packaging" type="number" min="0" step="100" value="1500" inputmode="numeric"></div>
 <div class="field wide"><label for="ads">Reklama / boshqa xarajat (so‘m)</label><input id="ads" type="number" min="0" step="100" value="2000" inputmode="numeric"><div class="hint">Har bir mahsulotga to‘g‘ri keladigan xarajatni kiriting.</div></div>
 </div>
 <div class="sample">
-<div class="row"><span>Komissiya qanday hisoblanadi?</span><strong>Sotuv narxi × foiz</strong></div>
+<div class="row"><span>Komissiya</span><strong>Narx oralig‘i va toifaga bog‘liq</strong></div>
 <div class="row"><span>Logistika</span><strong>5 000 so‘m (doimiy)</strong></div>
-<div class="row"><span>Qadoqlash va reklama</span><strong>Siz kiritgan qiymat</strong></div>
+<div class="row"><span>Qadoqlash va reklama</span><strong>Har bir mahsulot uchun siz kiritasiz</strong></div>
 </div>
 <div style="margin-top:19px"><label class="price-label" for="salePrice">Sotuv narxi (so‘m)</label><input class="priceinput" id="salePrice" type="number" min="0" step="1000" value="120000" inputmode="numeric"><div class="hint">Sotuv narxini o‘zgartirsangiz, komissiya, foyda va marja avtomatik qayta hisoblanadi.</div></div>
-<div class="note-box">Hisob-kitob taxminiy. Soliq, qaytarish, chegirma va boshqa qo‘shimcha to‘lovlarni alohida hisobga oling. Komissiya foizini amaldagi mahsulot toifangiz tarifiga qarab tekshiring.</div>
+<div class="note-box">Komissiya siz yuborgan tarif jadvali asosida narx oralig‘iga qarab avtomatik aniqlanadi. Tariflar o‘zgarishi mumkin; sotuvdan oldin Soff/Uzum seller kabinetidagi amaldagi tarifni tekshiring. Soliq, qaytarish, chegirma va boshqa to‘lovlar alohida bo‘lishi mumkin.</div>
 </div></section>
 <section class="panel"><div class="panelhead"><h2>2. Hisob-kitob natijasi</h2><p class="sub">Barcha natijalar kiritilgan qiymatlarga qarab real vaqtda yangilanadi.</p></div><div class="body">
 <div class="feature"><div class="caption">Sotuv narxi</div><div class="big" id="displayPrice">120 000 so‘m</div><div class="note">Kiritilgan narx</div></div>
@@ -44,23 +45,45 @@ main{padding:27px 0 40px}.grid{display:grid;grid-template-columns:minmax(0,1.05f
 <div class="stat"><span>Minimal zararsizlik narxi</span><strong id="breakEven">86 471 so‘m</strong><small>Foyda 0 bo‘ladigan taxminiy narx</small></div>
 <div class="stat"><span>Komissiya summasi</span><strong id="commissionDisplay">18 000 so‘m</strong><small id="commissionDescription">Sotuv narxining 15%</small></div>
 </div>
-<div class="note-box"><strong>Formula:</strong> Sof foyda = sotuv narxi − tannarx − komissiya − logistika − qadoqlash − reklama/boshqa xarajatlar. Komissiya sotuv narxiga nisbatan hisoblanadi; logistika 5 000 so‘m bo‘lib qoladi.</div>
+<div class="note-box"><strong>Formula:</strong> Sof foyda = sotuv narxi − tannarx − komissiya − logistika − qadoqlash − reklama/boshqa xarajatlar. Komissiya tarif jadvalidan avtomatik olinadi. Logistika doimiy 5 000 so‘m.</div>
 </div></section>
 </div></main>
 <footer class="wrap footer"><span><strong>FOYDA LAB</strong> · Mustaqil kalkulyator loyihasi</span><span>Uzum Market bilan rasmiy integratsiya yo‘q · Tariflarni mustaqil tekshiring</span></footer>
 <script>
 (()=>{'use strict';
 const el=id=>document.getElementById(id);
-const inputs=['salePrice','costPrice','commissionRate','packaging','ads'];
+const inputs=['salePrice','costPrice','packaging','ads'];
 const num=id=>Math.max(0,Number(el(id).value)||0);
 const money=v=>new Intl.NumberFormat('uz-UZ',{maximumFractionDigits:0}).format(Math.round(v))+' so‘m';
+function commissionRateFor(price, category){
+ if(category==='appliance') return 0.08;
+ if(price>=4998900) return 0.05;
+ if(price>=2998900) return 0.06;
+ if(price>=1998900) return 0.08;
+ if(price>=998900) return 0.10;
+ if(price>=698900) return 0.15;
+ if(price>=398900) return 0.18;
+ if(price>=298900) return 0.21;
+ if(price>=198900) return 0.25;
+ if(price>=148900) return 0.30;
+ if(price>=98900) return 0.32;
+ if(price>=48900) return 0.35;
+ return 0.40;
+}
 function calc(){
- const price=num('salePrice'), cost=num('costPrice'), rate=Math.min(99.99,num('commissionRate'))/100;
+ const price=num('salePrice'), cost=num('costPrice');
+ const category=el('commissionCategory').value;
+ const rate=commissionRateFor(price,category);
+ el('commissionRate').value=(rate*100).toLocaleString('uz-UZ',{maximumFractionDigits:2});
  const logistics=5000, packaging=num('packaging'), ads=num('ads');
  const commission=price*rate, total=cost+commission+logistics+packaging+ads;
  const profit=price-total, margin=price>0?profit/price*100:0;
  const fixed=cost+logistics+packaging+ads;
- const breakEven=rate<1?fixed/(1-rate):null;
+ // Tarif stavkasi narx chegaralarida o‘zgaradi, shu sabab zararsizlik narxini bosqichma-bosqich qidiramiz.
+ let breakEven=null;
+ for(let p=0;p<=100000000;p+=100){
+   if(p-(fixed+p*commissionRateFor(p,category))>=0){breakEven=p;break;}
+ }
  el('displayPrice').textContent=money(price);
  el('profit').textContent=money(profit);
  el('profit').className=profit>=0?'positive':'negative';
@@ -72,6 +95,7 @@ function calc(){
  el('breakEven').textContent=breakEven===null?'Hisoblab bo‘lmaydi':money(breakEven);
 }
 inputs.forEach(id=>el(id).addEventListener('input',calc));
+el('commissionCategory').addEventListener('change',calc);
 calc();
 })();
 </script></body></html>
