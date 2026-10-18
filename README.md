@@ -1,25 +1,18 @@
 # Foyda Lab — Uzum Market foyda kalkulyatori
 
-Foyda Lab marketplace sotuvchilariga tovar tannarxi, komissiya, reklama, logistika, qadoqlash va boshqa xarajatlar asosida taxminiy sotuv narxi hamda sof foydani hisoblashga yordam beruvchi mustaqil HTML kalkulyator demo-versiyasidir.
+Ushbu repository Foyda Lab mahsulotining ommaviy demo sahifasini saqlaydi. Demo xarajatlar uchun namuna qiymatlardan foydalanadi; foydalanuvchi faqat sinov sotuv narxini o‘zgartirib, taxminiy foydani ko‘rishi mumkin.
 
-## Ishga tushirish
+## GitHub Pages orqali demo sayti
 
-Brauzerda index.html faylini oching. Alohida dastur o‘rnatish talab qilinmaydi.
+1. Repository Settings → Pages bo‘limini oching.
+2. Build and deployment ostida Source sifatida Deploy from a branch tanlang.
+3. Branch: main; folder: /(root) ni belgilang.
+4. Save tugmasini bosing va GitHub Pages beradigan sayt havolasi paydo bo‘lishini kuting.
 
-## Imkoniyatlar
+## To‘liq mahsulot haqida
 
-- Tovar tannarxi va maqsadli sof foydani kiritish
-- Marketplace komissiyasi va boshqa foizli xarajatlarni hisoblash
-- Logistika, qadoqlash, reklama va qo‘shimcha xarajatlarni hisobga olish
-- Tavsiya etilgan narx, minimal narx, taxminiy sof foyda va marjani ko‘rish
-- Muayyan sotuv narxidagi foydani tekshirish
-- Natijani nusxalash va hisobotni chop etish
-- Mobil qurilmalarga mos ko‘rinish; oflayn ishlash
-
-## GitHub Pages demo
-
-Repository Settings → Pages bo‘limida Build and deployment ostidan Deploy from a branch ni tanlang. Branch sifatida main, folder sifatida /(root) ni belgilang va Save bosing. Sayt tayyor bo‘lgach GitHub Pages ko‘rsatgan URLni ishlating.
+To‘liq kalkulyator alohida HTML mahsulot fayli sifatida taqdim etiladi. Unda xarajatlarni mustaqil sozlash, maqsadli foydaga mos sotuv narxini hisoblash, minimal narx, sof foyda va marjani ko‘rish, hisobotni nusxalash yoki chop etish kabi funksiyalar mavjud.
 
 ## Muhim eslatma
 
-Bu mustaqil hisob-kitob vositasi, Uzum Market bilan rasmiy integratsiyaga ega emas. Komissiya va boshqa tariflar avtomatik yangilanmaydi; foydalanuvchi ularni o‘zi kiritadi. Soliqlar va boshqa majburiy to‘lovlar avtomatik aniqlanmaydi. Natijalar taxminiydir.
+Foyda Lab — mustaqil hisob-kitob vositasi bo‘lib, Uzum Market bilan rasmiy integratsiyaga ega emas. Komissiya va boshqa tariflar avtomatik yangilanmaydi; foydalanuvchi ularni o‘zi kiritishi kerak. Soliqlar va boshqa majburiy to‘lovlar avtomatik aniqlanmaydi. Natijalar taxminiydir.
